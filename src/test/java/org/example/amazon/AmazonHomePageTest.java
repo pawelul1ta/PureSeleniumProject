@@ -1,5 +1,6 @@
 package org.example.amazon;
 
+import base_test.AbstractTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -7,11 +8,10 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class AmazonHomePageTest {
+public class AmazonHomePageTest extends AbstractTest {
 
     @Test
     public void searchResultsTest() {
-        WebDriver driver = new ChromeDriver();
         driver.get("https://www.amazon.com/");
 
         AmazonHomePage homePage = new AmazonHomePage(driver);

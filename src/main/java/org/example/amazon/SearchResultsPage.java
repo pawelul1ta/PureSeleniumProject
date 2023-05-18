@@ -1,5 +1,6 @@
 package org.example.amazon;
 
+import org.example.base_page.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -8,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-public class SearchResultsPage {
+public class SearchResultsPage extends AbstractPage {
 
     WebDriver driver;
 
@@ -16,7 +17,7 @@ public class SearchResultsPage {
     List<WebElement> foundItems;
 
     public SearchResultsPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 

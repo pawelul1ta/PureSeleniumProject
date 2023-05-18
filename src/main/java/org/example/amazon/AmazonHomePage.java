@@ -1,12 +1,12 @@
 package org.example.amazon;
 
+import org.example.base_page.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class AmazonHomePage {
-    WebDriver driver;
+public class AmazonHomePage extends AbstractPage {
 
     @FindBy(css = "input[type='text']")
     WebElement input;
@@ -15,16 +15,16 @@ public class AmazonHomePage {
     WebElement searchButton;
 
     public AmazonHomePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver, this);
     }
 
     public void typeSearchCriteria(String criteria) {
-        input.sendKeys(criteria);
+        writeText(input, criteria);
     }
 
     public SearchResultsPage getSearchResults() {
-        searchButton.click();
+        click(searchButton);
         return new SearchResultsPage(driver);
     }
 }

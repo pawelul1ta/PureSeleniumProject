@@ -11,8 +11,6 @@ import java.util.List;
 
 public class SearchResultsPage extends AbstractPage {
 
-    WebDriver driver;
-
     @FindBy(css = "div[class*='SEARCH_RESULTS']")
     List<WebElement> foundItems;
 

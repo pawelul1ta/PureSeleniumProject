@@ -14,6 +14,12 @@ public class AmazonHomePage extends AbstractPage {
     @FindBy(css = "input[value='Go']")
     WebElement searchButton;
 
+    @FindBy(css = "div[class*='new_cust'] a")
+    WebElement newCustomerLink;
+
+    @FindBy(id = "nav-link-accountList")
+    WebElement helloSignInElement;
+
     public AmazonHomePage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -26,5 +32,18 @@ public class AmazonHomePage extends AbstractPage {
     public SearchResultsPage getSearchResults() {
         click(searchButton);
         return new SearchResultsPage(driver);
+    }
+
+    public void hoverMouseOverHelloSignInElement() {
+        hoverMouseOver(helloSignInElement);
+    }
+
+    public CreateAccountPage clickOnNewCustomerLink() {
+        hoverMouseOver(helloSignInElement)
+                .moveToElement(newCustomerLink)
+                .click()
+                .build()
+                .perform();
+        return new CreateAccountPage(driver);
     }
 }

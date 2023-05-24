@@ -1,5 +1,6 @@
 package org.example.base_page;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -12,8 +13,8 @@ import java.time.Duration;
 
 public class AbstractPage {
     private static Logger logger = LoggerFactory.getLogger(AbstractPage.class);
-    public WebDriver driver;
-    public WebDriverWait wait;
+    protected WebDriver driver;
+    protected WebDriverWait wait;
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
@@ -23,19 +24,29 @@ public class AbstractPage {
     public void click(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
-        logger.info("Element is clicked");
+
+        logger.info(element + " is clicked");
     }
 
     public void writeText(WebElement element, String text) {
         wait.until(ExpectedConditions.visibilityOf(element));
         element.sendKeys(text);
-        logger.info("Text is typed in the element");
+        logger.info("\"" + text + "\"" + " is typed in the " + element.getAttribute("id"));
     }
 
     public Actions hoverMouseOver(WebElement element) {
         Actions action = new Actions(driver);
         action.moveToElement(element);
-        logger.info("mouse pointer is moved to the element");
+        logger.info("mouse pointer is moved to the " + element.getAccessibleName());
         return action;
+    }
+
+    public boolean isElementVisible(WebElement element) {
+        return element.isDisplayed();
+    }
+
+    public void scrollDownThePage() {
+        Actions action = new Actions(driver);
+        action.sendKeys(Keys.PAGE_DOWN).build().perform();
     }
 }

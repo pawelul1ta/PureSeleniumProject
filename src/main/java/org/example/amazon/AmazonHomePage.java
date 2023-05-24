@@ -7,18 +7,20 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class AmazonHomePage extends AbstractPage {
-
     @FindBy(css = "input[type='text']")
-    WebElement input;
+    private WebElement searchInput;
 
     @FindBy(css = "input[value='Go']")
-    WebElement searchButton;
+    private WebElement searchButton;
 
     @FindBy(css = "div[class*='new_cust'] a")
-    WebElement newCustomerLink;
+    private WebElement newCustomerLink;
 
     @FindBy(id = "nav-link-accountList")
-    WebElement helloSignInElement;
+    private WebElement helloSignInElement;
+
+    @FindBy(xpath = "//a[text()='Help']")
+    private WebElement helpButton;
 
     public AmazonHomePage(WebDriver driver) {
         super(driver);
@@ -26,16 +28,12 @@ public class AmazonHomePage extends AbstractPage {
     }
 
     public void typeSearchCriteria(String criteria) {
-        writeText(input, criteria);
+        writeText(searchInput, criteria);
     }
 
     public SearchResultsPage getSearchResults() {
         click(searchButton);
         return new SearchResultsPage(driver);
-    }
-
-    public void hoverMouseOverHelloSignInElement() {
-        hoverMouseOver(helloSignInElement);
     }
 
     public CreateAccountPage clickOnNewCustomerLink() {
@@ -45,5 +43,14 @@ public class AmazonHomePage extends AbstractPage {
                 .build()
                 .perform();
         return new CreateAccountPage(driver);
+    }
+
+    public void scrollDownTheHomePage() {
+        scrollDownThePage();
+    }
+
+    public HelpPage clickHelpButton() {
+        click(helpButton);
+        return new HelpPage(driver);
     }
 }

@@ -26,18 +26,18 @@ public class AbstractTest {
     }
 
     private WebDriver getDriverThreadLocal() {
-       return driverThreadLocal.get();
+        return driverThreadLocal.get();
     }
 
     @AfterMethod
     public void tearDown() {
-        if(getDriverThreadLocal() != null) {
+        if (getDriverThreadLocal() != null) {
             getDriverThreadLocal().quit();
         }
     }
+
     @AfterClass
-    public void terminate () {
-        //Remove the ThreadLocalMap element
+    public void terminate() {
         driverThreadLocal.remove();
     }
 }

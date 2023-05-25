@@ -4,7 +4,6 @@ import org.example.base_page.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class AddingToCartSummary extends AbstractPage {
     @FindBy(css = "span[id='nav-cart-count']")
@@ -15,7 +14,6 @@ public class AddingToCartSummary extends AbstractPage {
 
     public AddingToCartSummary(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
     }
 
     public int numberOfCartItems() {

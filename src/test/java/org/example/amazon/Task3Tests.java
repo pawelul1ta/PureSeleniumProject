@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 public class Task3Tests extends AbstractTest {
 
-
     @Test
     public void creatingAccountWithoutProperData() {
 
@@ -16,6 +15,7 @@ public class Task3Tests extends AbstractTest {
 
         CreateAccountPage createAccountPage = homePage.clickOnNewCustomerLink();
         createAccountPage = createAccountPage.clickContinue();
+
         Assert.assertTrue(createAccountPage.checkIfNameInputHasErrors());
     }
 
@@ -25,11 +25,13 @@ public class Task3Tests extends AbstractTest {
         AmazonHomePage homePage = openTheHomePage();
 
         homePage.typeSearchCriteria("guitar");
-        SearchResultsPage resultsPage = homePage.getSearchResults();
-        ProductPage productPage = resultsPage.clickOnFirstFoundItem();
-        AddingToCartSummary addingToCartSummary = productPage.addProductToTheCart();
 
-        Assert.assertEquals(addingToCartSummary.numberOfCartItems(), 1);
+        int numberOfCartItems = homePage.getSearchResults()
+                .clickOnFirstFoundItem()
+                .addProductToTheCart()
+                .numberOfCartItems();
+
+        Assert.assertEquals(numberOfCartItems, 1);
     }
 
     @Test

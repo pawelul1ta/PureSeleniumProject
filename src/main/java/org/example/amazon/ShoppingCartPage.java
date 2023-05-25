@@ -4,7 +4,6 @@ import org.example.base_page.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class ShoppingCartPage extends AbstractPage {
     @FindBy(css = "input[value='Proceed to checkout']")
@@ -18,7 +17,6 @@ public class ShoppingCartPage extends AbstractPage {
 
     public ShoppingCartPage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
     }
 
     public SignInPage proceedToCheckout() {

@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AmazonHomePage extends AbstractPage {
@@ -16,7 +15,7 @@ public class AmazonHomePage extends AbstractPage {
     @FindBy(css = "input[value='Go']")
     private WebElement searchButton;
 
-    @FindBy(css = "div[class*='new_cust'] a")
+    @FindBy(css = "div[class*='nav_pop_new'] a")
     private WebElement newCustomerLink;
 
     @FindBy(css = "a[data-nav-role='signin']")
@@ -27,7 +26,6 @@ public class AmazonHomePage extends AbstractPage {
 
     public AmazonHomePage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
     }
 
     public void typeSearchCriteria(String criteria) {
@@ -40,14 +38,10 @@ public class AmazonHomePage extends AbstractPage {
     }
 
     public CreateAccountPage clickOnNewCustomerLink() {
-        String path = "div[class*='nav_pop_new'] a";
-
-        hoverMouseOver(helloSignInElement);
-        WebElement el = driver.findElement(By.cssSelector(path));
-        wait.until(ExpectedConditions.visibilityOf(el));
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(el).click().build().perform();
+        wait.until(ExpectedConditions.visibilityOf(helloSignInElement));
+        actions.moveToElement(helloSignInElement).moveToElement(newCustomerLink).click().build().perform();
 
         return new CreateAccountPage(driver);
     }

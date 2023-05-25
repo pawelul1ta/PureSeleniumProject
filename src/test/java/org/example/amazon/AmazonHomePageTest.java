@@ -3,16 +3,14 @@ package org.example.amazon;
 import base_test.AbstractTest;
 import org.example.util.PropertiesUtil;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 public class AmazonHomePageTest extends AbstractTest {
 
     @Test
-    public void searchResultsTest() {
+    public void searchResultsTest() throws InterruptedException {
+        WebDriver driver = driverThreadLocal.get();
         String url = PropertiesUtil.get("baseUrl");
         driver.get(url);
 

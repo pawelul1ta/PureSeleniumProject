@@ -1,10 +1,13 @@
 package org.example.amazon;
 
 import org.example.base_page.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AmazonHomePage extends AbstractPage {
     @FindBy(css = "input[type='text']")
@@ -16,7 +19,7 @@ public class AmazonHomePage extends AbstractPage {
     @FindBy(css = "div[class*='new_cust'] a")
     private WebElement newCustomerLink;
 
-    @FindBy(id = "nav-link-accountList")
+    @FindBy(css = "a[data-nav-role='signin']")
     private WebElement helloSignInElement;
 
     @FindBy(xpath = "//a[text()='Help']")
@@ -37,11 +40,15 @@ public class AmazonHomePage extends AbstractPage {
     }
 
     public CreateAccountPage clickOnNewCustomerLink() {
-        hoverMouseOver(helloSignInElement)
-                .moveToElement(newCustomerLink)
-                .click()
-                .build()
-                .perform();
+        String path = "div[class*='nav_pop_new'] a";
+
+        hoverMouseOver(helloSignInElement);
+        WebElement el = driver.findElement(By.cssSelector(path));
+        wait.until(ExpectedConditions.visibilityOf(el));
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(el).click().build().perform();
+
         return new CreateAccountPage(driver);
     }
 
@@ -50,6 +57,7 @@ public class AmazonHomePage extends AbstractPage {
     }
 
     public HelpPage clickHelpButton() {
+        wait.until(ExpectedConditions.visibilityOf(helpButton));
         click(helpButton);
         return new HelpPage(driver);
     }

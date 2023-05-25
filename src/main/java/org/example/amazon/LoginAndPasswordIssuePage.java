@@ -24,7 +24,6 @@ public class LoginAndPasswordIssuePage extends AbstractPage {
     }
 
     public void clickOnSelectMenuAndChooseIdontHaveAccountOpt() {
-        wait.until(ExpectedConditions.visibilityOf(issueSelect));
         Select select = new Select(issueSelect);
         select.selectByVisibleText("I do not have an Amazon account but need assistance");
     }

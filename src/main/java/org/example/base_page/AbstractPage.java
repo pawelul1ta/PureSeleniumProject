@@ -18,7 +18,7 @@ public class AbstractPage {
 
     public AbstractPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofMillis(2000));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
     public void click(WebElement element) {
@@ -34,14 +34,15 @@ public class AbstractPage {
         logger.info("\"" + text + "\"" + " is typed in the " + element.getAttribute("id"));
     }
 
-    public Actions hoverMouseOver(WebElement element) {
+    public void hoverMouseOver(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
         Actions action = new Actions(driver);
-        action.moveToElement(element);
+        action.moveToElement(element).build().perform();
         logger.info("mouse pointer is moved to the " + element.getAccessibleName());
-        return action;
     }
 
     public boolean isElementVisible(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
         return element.isDisplayed();
     }
 

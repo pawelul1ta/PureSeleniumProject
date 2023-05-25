@@ -1,23 +1,43 @@
 package base_test;
 
+import org.example.driver.DriverFactory;
+import org.example.util.PropertiesUtil;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
+
+import java.net.MalformedURLException;
+import java.time.Duration;
 
 public class AbstractTest {
-        protected WebDriver driver;
+    protected ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
-        @BeforeTest
-        public void setup () {
-            driver = new ChromeDriver();
+    @BeforeMethod
+    @Parameters("browserType")
+    public void driverSetup(@Optional("chrome") String browserType) throws MalformedURLException {
+        DriverFactory driverFactory = new DriverFactory();
+        WebDriver webDriver = driverFactory.create(browserType, PropertiesUtil.get("hubUrl"));
 
+        webDriver.manage().window().maximize();
+        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+
+        driverThreadLocal.set(webDriver);
+
+    }
+
+    private WebDriver getDriverThreadLocal() {
+        return driverThreadLocal.get();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (getDriverThreadLocal() != null) {
+            getDriverThreadLocal().quit();
         }
-        @AfterTest
-        public void teardown () {
-            driver.quit();
-        }
+    }
 
+    @AfterClass
+    public void terminate() {
+        driverThreadLocal.remove();
+    }
 }

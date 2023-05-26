@@ -26,14 +26,13 @@ public class AbstractPage {
     public void click(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
-
         logger.info(element + " is clicked");
     }
 
     public void writeText(WebElement element, String text) {
         wait.until(ExpectedConditions.visibilityOf(element));
         element.sendKeys(text);
-        logger.info("\"" + text + "\"" + " is typed in the " + element.getAttribute("id"));
+        logger.info("{} is typed in the {}", text, element);
     }
 
     public void hoverMouseOver(WebElement element) {

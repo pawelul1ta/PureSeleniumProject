@@ -14,7 +14,6 @@ public class SearchResultsPage extends AbstractPage {
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
-        ;
     }
 
     public int count() {

@@ -74,8 +74,8 @@ public class Task3Tests extends AbstractTest {
     }
 
     private AmazonHomePage openTheHomePage() {
-        WebDriver driver = driverThreadLocal.get();
         String url = PropertiesUtil.get("baseUrl");
+        WebDriver driver = driverThreadLocal.get();
         driver.get(url);
         return new AmazonHomePage(driver);
     }

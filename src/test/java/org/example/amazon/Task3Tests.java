@@ -1,17 +1,16 @@
 package org.example.amazon;
 
-import base_test.AbstractTest;
-import org.example.util.PropertiesUtil;
-import org.openqa.selenium.WebDriver;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class Task3Tests extends AbstractTest {
+public class Task3Tests implements IAbstractTest {
 
     @Test
     public void creatingAccountWithoutProperData() {
 
-        AmazonHomePage homePage = openTheHomePage();
+        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        homePage.open();
 
         CreateAccountPage createAccountPage = homePage.clickOnNewCustomerLink();
         createAccountPage = createAccountPage.clickContinue();
@@ -22,7 +21,8 @@ public class Task3Tests extends AbstractTest {
     @Test
     public void addingToTheCartTest() {
 
-        AmazonHomePage homePage = openTheHomePage();
+        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        homePage.open();
 
         homePage.typeSearchCriteria("guitar");
 
@@ -37,7 +37,9 @@ public class Task3Tests extends AbstractTest {
     @Test
     public void proceedToCheckoutWithoutSigningIn() {
 
-        AmazonHomePage homePage = openTheHomePage();
+        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        homePage.open();
+
         homePage.typeSearchCriteria("guitar");
         SearchResultsPage resultsPage = homePage.getSearchResults();
         ProductPage productPage = resultsPage.clickOnFirstFoundItem();
@@ -51,7 +53,9 @@ public class Task3Tests extends AbstractTest {
     @Test
     public void removingFromTheCartTest() {
 
-        AmazonHomePage homePage = openTheHomePage();
+        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        homePage.open();
+
         homePage.typeSearchCriteria("guitar");
         SearchResultsPage resultsPage = homePage.getSearchResults();
         ProductPage productPage = resultsPage.clickOnFirstFoundItem();
@@ -64,8 +68,11 @@ public class Task3Tests extends AbstractTest {
 
     @Test
     public void contactInformationTest() {
-        AmazonHomePage homePage = openTheHomePage();
-        homePage.scrollDownThePage();
+
+        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        homePage.open();
+
+        homePage.scrollDownTheHomePage();
         HelpPage helpPage = homePage.clickHelpButton();
         LoginAndPasswordIssuePage loginAndPasswordIssuePage = helpPage.clickOnLoginAndPasswordIssueCard();
         loginAndPasswordIssuePage.clickOnSelectMenuAndChooseIdontHaveAccountOpt();
@@ -73,10 +80,4 @@ public class Task3Tests extends AbstractTest {
         Assert.assertTrue(loginAndPasswordIssuePage.isContactNumberProvided());
     }
 
-    private AmazonHomePage openTheHomePage() {
-        String url = PropertiesUtil.get("baseUrl");
-        WebDriver driver = driverThreadLocal.get();
-        driver.get(url);
-        return new AmazonHomePage(driver);
-    }
 }

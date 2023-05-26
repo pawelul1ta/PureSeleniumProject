@@ -1,16 +1,17 @@
 package org.example.amazon;
 
-import org.example.base_page.AbstractPage;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class AddingToCartSummary extends AbstractPage {
     @FindBy(css = "span[id='nav-cart-count']")
-    private WebElement cartIcon;
+    private ExtendedWebElement cartIcon;
 
     @FindBy(css = "a[id='nav-cart']")
-    private WebElement cartLink;
+    private ExtendedWebElement cartLink;
 
     public AddingToCartSummary(WebDriver driver) {
         super(driver);
@@ -21,7 +22,7 @@ public class AddingToCartSummary extends AbstractPage {
     }
 
     public ShoppingCartPage goToTheCart() {
-        click(cartLink);
+        cartLink.click();
         return new ShoppingCartPage(driver);
     }
 }

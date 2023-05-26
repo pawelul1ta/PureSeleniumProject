@@ -1,21 +1,21 @@
 package org.example.amazon;
 
-import org.example.base_page.AbstractPage;
-import org.openqa.selenium.By;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class HelpPage extends AbstractPage {
     @FindBy(css = "div[onClick *= 'handleLoginIssue']")
-    private WebElement loginAndPasswordIssueCard;
+    private ExtendedWebElement loginAndPasswordIssueCard;
 
     public HelpPage(WebDriver driver) {
         super(driver);
     }
 
     public LoginAndPasswordIssuePage clickOnLoginAndPasswordIssueCard() {
-        click(loginAndPasswordIssueCard);
+        loginAndPasswordIssueCard.click();
         return new LoginAndPasswordIssuePage(driver);
     }
 }

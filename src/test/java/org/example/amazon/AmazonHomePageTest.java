@@ -1,20 +1,18 @@
 package org.example.amazon;
 
-import base_test.AbstractTest;
-import org.example.util.PropertiesUtil;
-import org.openqa.selenium.WebDriver;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AmazonHomePageTest extends AbstractTest {
+public class AmazonHomePageTest implements IAbstractTest {
 
     @Test
     public void searchResultsTest() throws InterruptedException {
-        WebDriver driver = driverThreadLocal.get();
-        String url = PropertiesUtil.get("baseUrl");
-        driver.get(url);
 
-        AmazonHomePage homePage = new AmazonHomePage(driver);
+
+        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        homePage.open();
+        homePage.assertPageOpened();
 
         homePage.typeSearchCriteria("cat");
 

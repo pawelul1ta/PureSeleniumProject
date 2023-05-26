@@ -1,20 +1,18 @@
 package org.example.amazon;
 
-import base_test.AbstractTest;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import com.zebrunner.carina.core.IAbstractTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
-public class AmazonHomePageTest extends AbstractTest {
+public class AmazonHomePageTest implements IAbstractTest {
 
     @Test
-    public void searchResultsTest() {
-        driver.get("https://www.amazon.com/");
+    public void searchResultsTest() throws InterruptedException {
 
-        AmazonHomePage homePage = new AmazonHomePage(driver);
+
+        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        homePage.open();
+        homePage.assertPageOpened();
 
         homePage.typeSearchCriteria("cat");
 
@@ -24,5 +22,4 @@ public class AmazonHomePageTest extends AbstractTest {
 
         Assert.assertTrue(numberOfItems > 0);
     }
-
 }

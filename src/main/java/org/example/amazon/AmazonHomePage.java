@@ -1,49 +1,61 @@
 package org.example.amazon;
 
-import org.example.base_page.AbstractPage;
+
+import com.zebrunner.carina.utils.Configuration;
+import com.zebrunner.carina.utils.R;
+import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class AmazonHomePage extends AbstractPage {
-
     @FindBy(css = "input[type='text']")
-    WebElement input;
+    private ExtendedWebElement searchInput;
 
     @FindBy(css = "input[value='Go']")
-    WebElement searchButton;
+    private ExtendedWebElement searchButton;
 
-    @FindBy(css = "div[class*='new_cust'] a")
-    WebElement newCustomerLink;
+    @FindBy(css = "div[class*='nav_pop_new'] a")
+    private ExtendedWebElement newCustomerLink;
 
-    @FindBy(id = "nav-link-accountList")
-    WebElement helloSignInElement;
+    @FindBy(css = "a[data-nav-role='signin']")
+    private ExtendedWebElement helloSignInElement;
+
+    @FindBy(xpath = "//a[text()='Help']")
+    private ExtendedWebElement helpButton;
 
     public AmazonHomePage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
+        setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
     }
 
     public void typeSearchCriteria(String criteria) {
-        writeText(input, criteria);
+        searchInput.type(criteria);
     }
 
     public SearchResultsPage getSearchResults() {
-        click(searchButton);
+        searchButton.click();
         return new SearchResultsPage(driver);
     }
 
-    public void hoverMouseOverHelloSignInElement() {
-        hoverMouseOver(helloSignInElement);
+    public CreateAccountPage clickOnNewCustomerLink() {
+
+        helloSignInElement.hover();
+        newCustomerLink.hover();
+        newCustomerLink.click();
+
+        return new CreateAccountPage(driver);
     }
 
-    public CreateAccountPage clickOnNewCustomerLink() {
-        hoverMouseOver(helloSignInElement)
-                .moveToElement(newCustomerLink)
-                .click()
-                .build()
-                .perform();
-        return new CreateAccountPage(driver);
+    public void scrollDownTheHomePage() {
+        Actions action = new Actions(driver);
+        action.sendKeys(Keys.PAGE_DOWN).build().perform();
+    }
+
+    public HelpPage clickHelpButton() {
+        helpButton.click();
+        return new HelpPage(driver);
     }
 }

@@ -1,11 +1,13 @@
-package org.example.amazon;
+package org.example.amazon.web;
 
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.example.amazon.base.SignInPageBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class SignInPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = SignInPageBase.class)
+public class SignInPage extends SignInPageBase {
     @FindBy(css = "div[class='a-box']")
     private ExtendedWebElement signInForm;
 
@@ -13,6 +15,7 @@ public class SignInPage extends AbstractPage {
         super(driver);
     }
 
+    @Override
     public boolean isSignInFormPresent() {
         return signInForm.isElementPresent();
     }

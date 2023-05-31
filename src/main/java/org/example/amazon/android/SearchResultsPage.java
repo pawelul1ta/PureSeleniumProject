@@ -1,14 +1,17 @@
-package org.example.amazon;
+package org.example.amazon.android;
 
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.example.amazon.base.ProductPageBase;
+import org.example.amazon.base.SearchResultsPageBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class SearchResultsPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = SearchResultsPageBase.class)
+public class SearchResultsPage extends SearchResultsPageBase {
     @FindBy(css = "div[class*='SEARCH_RESULTS'] a")
     private List<ExtendedWebElement> foundItems;
 
@@ -16,17 +19,19 @@ public class SearchResultsPage extends AbstractPage {
         super(driver);
     }
 
+    @Override
     public int count() {
         return foundItems.size();
     }
 
-    public ProductPage clickOnFirstFoundItem() {
+    @Override
+    public ProductPageBase clickOnFirstFoundItem() {
         if (count() > 0) {
             foundItems.get(0).click();
         } else {
             throw new NoSuchElementException("No items were found");
         }
-        return new ProductPage(driver);
+        return initPage(driver, ProductPageBase.class);
     }
 
 }

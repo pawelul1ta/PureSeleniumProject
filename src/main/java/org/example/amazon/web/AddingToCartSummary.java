@@ -1,12 +1,14 @@
-package org.example.amazon;
+package org.example.amazon.web;
 
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.example.amazon.base.AddingToCartSummaryBase;
+import org.example.amazon.base.ShoppingCartPageBase;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class AddingToCartSummary extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = AddingToCartSummaryBase.class)
+public class AddingToCartSummary extends AddingToCartSummaryBase {
     @FindBy(css = "span[id='nav-cart-count']")
     private ExtendedWebElement cartIcon;
 
@@ -17,12 +19,14 @@ public class AddingToCartSummary extends AbstractPage {
         super(driver);
     }
 
+    @Override
     public int numberOfCartItems() {
         return Integer.parseInt(cartIcon.getText());
     }
 
-    public ShoppingCartPage goToTheCart() {
+    @Override
+    public ShoppingCartPageBase goToTheCart() {
         cartLink.click();
-        return new ShoppingCartPage(driver);
+        return initPage(driver, ShoppingCartPageBase.class);
     }
 }

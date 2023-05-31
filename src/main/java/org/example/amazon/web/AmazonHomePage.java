@@ -1,16 +1,21 @@
-package org.example.amazon;
+package org.example.amazon.web;
 
 
 import com.zebrunner.carina.utils.Configuration;
 import com.zebrunner.carina.utils.R;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.example.amazon.base.AmazonHomePageBase;
+import org.example.amazon.base.CreateAccountPageBase;
+import org.example.amazon.base.HelpPageBase;
+import org.example.amazon.base.SearchResultsPageBase;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
-public class AmazonHomePage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = AmazonHomePageBase.class)
+public class AmazonHomePage extends AmazonHomePageBase {
     @FindBy(css = "input[type='text']")
     private ExtendedWebElement searchInput;
 
@@ -31,22 +36,25 @@ public class AmazonHomePage extends AbstractPage {
         setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
     }
 
+    @Override
     public void typeSearchCriteria(String criteria) {
         searchInput.type(criteria);
     }
 
-    public SearchResultsPage getSearchResults() {
+    @Override
+    public SearchResultsPageBase getSearchResults() {
         searchButton.click();
-        return new SearchResultsPage(driver);
+        return initPage(driver, SearchResultsPageBase.class);
     }
 
-    public CreateAccountPage clickOnNewCustomerLink() {
+    @Override
+    public CreateAccountPageBase clickOnNewCustomerLink() {
 
         helloSignInElement.hover();
         newCustomerLink.hover();
         newCustomerLink.click();
 
-        return new CreateAccountPage(driver);
+        return initPage(driver, CreateAccountPageBase.class);
     }
 
     public void scrollDownTheHomePage() {
@@ -54,8 +62,10 @@ public class AmazonHomePage extends AbstractPage {
         action.sendKeys(Keys.PAGE_DOWN).build().perform();
     }
 
-    public HelpPage clickHelpButton() {
+    @Override
+    public HelpPageBase clickHelpButton() {
+        scrollDownTheHomePage();
         helpButton.click();
-        return new HelpPage(driver);
+        return initPage(driver, HelpPageBase.class);
     }
 }

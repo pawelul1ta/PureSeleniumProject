@@ -1,16 +1,18 @@
-package org.example.amazon;
+package org.example.amazon.android;
 
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
+import org.example.amazon.base.ShoppingCartPageBase;
+import org.example.amazon.base.SignInPageBase;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ShoppingCartPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = ShoppingCartPageBase.class)
+public class ShoppingCartPage extends ShoppingCartPageBase {
     @FindBy(css = "input[value='Proceed to checkout']")
     private ExtendedWebElement proceedToCheckoutButton;
 
-    @FindBy(css = "input[value='Delete']")
+    @FindBy(css = "input[value*='Delete']")
     private ExtendedWebElement deleteItemLink;
 
     @FindBy(css = "span[id='nav-cart-count']")
@@ -20,15 +22,18 @@ public class ShoppingCartPage extends AbstractPage {
         super(driver);
     }
 
-    public SignInPage proceedToCheckout() {
+    @Override
+    public SignInPageBase proceedToCheckout() {
         proceedToCheckoutButton.click();
-        return new SignInPage(driver);
+        return initPage(driver, SignInPageBase.class);
     }
 
+    @Override
     public void deleteItemFromCart() {
         deleteItemLink.click();
     }
 
+    @Override
     public int numberOfCartItems() {
         return Integer.parseInt(cartIcon.getText());
     }

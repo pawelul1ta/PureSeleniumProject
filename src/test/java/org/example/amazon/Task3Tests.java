@@ -1,6 +1,8 @@
 package org.example.amazon;
 
 import com.zebrunner.carina.core.IAbstractTest;
+import org.example.amazon.base.*;
+import org.example.amazon.web.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -9,10 +11,10 @@ public class Task3Tests implements IAbstractTest {
     @Test
     public void creatingAccountWithoutProperData() {
 
-        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        AmazonHomePageBase homePage = initPage(getDriver(), AmazonHomePageBase.class);
         homePage.open();
 
-        CreateAccountPage createAccountPage = homePage.clickOnNewCustomerLink();
+        CreateAccountPageBase createAccountPage = homePage.clickOnNewCustomerLink();
         createAccountPage = createAccountPage.clickContinue();
 
         Assert.assertTrue(createAccountPage.checkIfNameInputHasErrors());
@@ -21,15 +23,12 @@ public class Task3Tests implements IAbstractTest {
     @Test
     public void addingToTheCartTest() {
 
-        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        AmazonHomePageBase homePage = initPage(getDriver(), AmazonHomePageBase.class);
         homePage.open();
 
         homePage.typeSearchCriteria("guitar");
 
-        int numberOfCartItems = homePage.getSearchResults()
-                .clickOnFirstFoundItem()
-                .addProductToTheCart()
-                .numberOfCartItems();
+        int numberOfCartItems = homePage.getSearchResults().clickOnFirstFoundItem().addProductToTheCart().numberOfCartItems();
 
         Assert.assertEquals(numberOfCartItems, 1);
     }
@@ -37,15 +36,15 @@ public class Task3Tests implements IAbstractTest {
     @Test
     public void proceedToCheckoutWithoutSigningIn() {
 
-        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        AmazonHomePageBase homePage = initPage(getDriver(), AmazonHomePageBase.class);
         homePage.open();
 
         homePage.typeSearchCriteria("guitar");
-        SearchResultsPage resultsPage = homePage.getSearchResults();
-        ProductPage productPage = resultsPage.clickOnFirstFoundItem();
-        AddingToCartSummary addingToCartSummary = productPage.addProductToTheCart();
-        ShoppingCartPage shoppingCart = addingToCartSummary.goToTheCart();
-        SignInPage signInPage = shoppingCart.proceedToCheckout();
+        SearchResultsPageBase resultsPage = homePage.getSearchResults();
+        ProductPageBase productPage = resultsPage.clickOnFirstFoundItem();
+        AddingToCartSummaryBase addingToCartSummary = productPage.addProductToTheCart();
+        ShoppingCartPageBase shoppingCart = addingToCartSummary.goToTheCart();
+        SignInPageBase signInPage = shoppingCart.proceedToCheckout();
 
         Assert.assertTrue(signInPage.isSignInFormPresent());
     }
@@ -53,14 +52,14 @@ public class Task3Tests implements IAbstractTest {
     @Test
     public void removingFromTheCartTest() {
 
-        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        AmazonHomePageBase homePage = initPage(getDriver(), AmazonHomePageBase.class);
         homePage.open();
 
-        homePage.typeSearchCriteria("guitar");
-        SearchResultsPage resultsPage = homePage.getSearchResults();
-        ProductPage productPage = resultsPage.clickOnFirstFoundItem();
-        AddingToCartSummary addingToCartSummary = productPage.addProductToTheCart();
-        ShoppingCartPage shoppingCart = addingToCartSummary.goToTheCart();
+        homePage.typeSearchCriteria("dog");
+        SearchResultsPageBase resultsPage = homePage.getSearchResults();
+        ProductPageBase productPage = resultsPage.clickOnFirstFoundItem();
+        AddingToCartSummaryBase addingToCartSummary = productPage.addProductToTheCart();
+        ShoppingCartPageBase shoppingCart = addingToCartSummary.goToTheCart();
         shoppingCart.deleteItemFromCart();
 
         Assert.assertEquals(shoppingCart.numberOfCartItems(), 0);
@@ -69,12 +68,11 @@ public class Task3Tests implements IAbstractTest {
     @Test
     public void contactInformationTest() {
 
-        AmazonHomePage homePage = new AmazonHomePage(getDriver());
+        AmazonHomePageBase homePage = initPage(getDriver(), AmazonHomePageBase.class);
         homePage.open();
 
-        homePage.scrollDownTheHomePage();
-        HelpPage helpPage = homePage.clickHelpButton();
-        LoginAndPasswordIssuePage loginAndPasswordIssuePage = helpPage.clickOnLoginAndPasswordIssueCard();
+        HelpPageBase helpPage = homePage.clickHelpButton();
+        LoginAndPasswordIssuePageBase loginAndPasswordIssuePage = helpPage.clickOnLoginAndPasswordIssueCard();
         loginAndPasswordIssuePage.clickOnSelectMenuAndChooseIdontHaveAccountOpt();
 
         Assert.assertTrue(loginAndPasswordIssuePage.isContactNumberProvided());

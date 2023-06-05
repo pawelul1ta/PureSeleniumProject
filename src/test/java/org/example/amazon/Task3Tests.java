@@ -2,7 +2,6 @@ package org.example.amazon;
 
 import com.zebrunner.carina.core.IAbstractTest;
 import org.example.amazon.base.*;
-import org.example.amazon.web.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
